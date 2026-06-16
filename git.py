@@ -85,4 +85,5 @@ while True:
 
     if continuar == "N":
         print("Sistema encerrado.")
-        break
+        print("aaaaaaa")
+        
