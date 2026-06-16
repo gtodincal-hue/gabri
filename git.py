@@ -1,13 +1,37 @@
+def ler_int(mensagem):
+    while True:
+        try:
+            return int(input(mensagem))
+        except ValueError:
+            print("Erro: digite um número inteiro válido.")
+
+
+def ler_float(mensagem):
+    while True:
+        try:
+            return float(input(mensagem))
+        except ValueError:
+            print("Erro: digite um número válido.")
+
+
 def calcular_total():
-    quantidade_produtos = int(input("Quantidade de produtos: "))
+    quantidade_produtos = ler_int("Quantidade de produtos: ")
     total = 0
 
     for i in range(quantidade_produtos):
         print(f"\nProduto {i + 1}")
 
         nome = input("Nome do produto: ")
-        preco = float(input("Preço: R$ "))
-        quantidade = int(input("Quantidade: "))
+
+        preco = ler_float("Preço: R$ ")
+        while preco < 0:
+            print("O preço não pode ser negativo.")
+            preco = ler_float("Preço: R$ ")
+
+        quantidade = ler_int("Quantidade: ")
+        while quantidade < 0:
+            print("A quantidade não pode ser negativa.")
+            quantidade = ler_int("Quantidade: ")
 
         subtotal = preco * quantidade
         total += subtotal
@@ -40,15 +64,25 @@ def exibir_resumo(cliente, total, desconto):
 
 # Programa principal
 while True:
-    cliente = input("\nNome do cliente: ")
+    cliente = input("\nNome do cliente: ").strip()
+
+    if not cliente:
+        print("Nome do cliente não pode ficar vazio.")
+        continue
 
     total = calcular_total()
     desconto = calcular_desconto(total)
 
     exibir_resumo(cliente, total, desconto)
 
-    continuar = input("\nNova venda? (S/N): ").strip().upper()
+    while True:
+        continuar = input("\nNova venda? (S/N): ").strip().upper()
 
-    if continuar != "S":
+        if continuar in ("S", "N"):
+            break
+
+        print("Erro: digite apenas S ou N.")
+
+    if continuar == "N":
         print("Sistema encerrado.")
         break
