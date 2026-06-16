@@ -1,15 +1,18 @@
-# funções
 def calcular_total():
-    n = int(input("quantidade de produtos: "))
+    quantidade_produtos = int(input("Quantidade de produtos: "))
     total = 0
 
-    for i in range(n):
-        print("\nproduto", i + 1)
-        nome_=input("nome desse produto:")
-        preco = float(input("preço: "))
-        qtd = int(input("quantidade: "))
+    for i in range(quantidade_produtos):
+        print(f"\nProduto {i + 1}")
 
-        total += preco * qtd
+        nome = input("Nome do produto: ")
+        preco = float(input("Preço: R$ "))
+        quantidade = int(input("Quantidade: "))
+
+        subtotal = preco * quantidade
+        total += subtotal
+
+        print(f"Subtotal de {nome}: R$ {subtotal:.2f}")
 
     return total
 
@@ -19,28 +22,33 @@ def calcular_desconto(total):
         return total * 0.10
     elif total >= 200:
         return total * 0.05
-    else:
-        return 0
-# codigo 
-nova_compra = True
-while nova_compra == True:
-    cliente = input("\nnome do cliente: ")
+    return 0
+
+
+def exibir_resumo(cliente, total, desconto):
+    total_final = total - desconto
+
+    print("\n" + "=" * 30)
+    print("RESUMO DA VENDA")
+    print("=" * 30)
+    print(f"Cliente: {cliente}")
+    print(f"Total: R$ {total:.2f}")
+    print(f"Desconto: R$ {desconto:.2f}")
+    print(f"Total Final: R$ {total_final:.2f}")
+    print("=" * 30)
+
+
+# Programa principal
+while True:
+    cliente = input("\nNome do cliente: ")
 
     total = calcular_total()
     desconto = calcular_desconto(total)
-    total_final = total - desconto
 
-    print("\n--- RESUMO ---")
-    print("cliente:", cliente)
-    print("total:", round(total, 2))
-    print("desconto:", round(desconto, 2))
-    print("total final:", round(total_final, 2))
-    continuarcompra = input("nova venda? (S/N): ").upper()
-# nova compra 
-    if continuarcompra == "N":
-        nova_compra = False
-    
-    elif continuarcompra == "S":
-        print("nova venda:")
-        nova_compra = True
+    exibir_resumo(cliente, total, desconto)
 
+    continuar = input("\nNova venda? (S/N): ").strip().upper()
+
+    if continuar != "S":
+        print("Sistema encerrado.")
+        break
